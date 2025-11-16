@@ -14,7 +14,7 @@ const RequestTypeSchema = new Schema(
     estimatedResponseTime: { type: Number },
     isActive: { type: Boolean, default: true },
   },
-  { timestamps: true }
+  { timestamps: true } // <- trailing comma ici
 );
 
 module.exports = model('RequestType', RequestTypeSchema);
