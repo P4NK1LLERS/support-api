@@ -14,7 +14,7 @@ const data = [
 
 (async () => {
   try {
-    const conn = await mongoose.connect(MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI);
     console.log(`Database connected: ${conn.connection.host}:${conn.connection.port}`);
     await RequestType.deleteMany({});
     await RequestType.insertMany(data);

@@ -43,6 +43,7 @@ jobs:
           --health-interval 10s --health-timeout 5s --health-retries 5
 
     env:
+      NODE_ENV: test
       MONGO_URI: mongodb://localhost:27017/support-api-ci
 
     steps:
