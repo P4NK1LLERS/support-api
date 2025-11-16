@@ -45,7 +45,7 @@ test('POST /api/request-types creates successfully', async () => {
     name: 'New Type',
     description: 'Desc',
     priority: 'medium',
-    category: 'test'
+    category: 'test',
   };
   const res = await request(app).post('/api/request-types').send(payload);
   expect(res.status).toBe(201);
