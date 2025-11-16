@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require('mongoose'); //base de données mongoose
 
 const RequestTypeSchema = new Schema(
   {
