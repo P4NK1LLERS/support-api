@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require('mongoose'); // base de données mongoose
 
 const RequestTypeSchema = new Schema(
   {
@@ -8,13 +8,13 @@ const RequestTypeSchema = new Schema(
     priority: {
       type: String,
       enum: ['low', 'medium', 'high', 'critical'],
-      default: 'medium'
+      default: 'medium',
     },
     category: { type: String, required: true },
     estimatedResponseTime: { type: Number },
-    isActive: { type: Boolean, default: true }
+    isActive: { type: Boolean, default: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = model('RequestType', RequestTypeSchema);
