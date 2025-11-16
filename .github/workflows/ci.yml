@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  code-quality:
+    name: code-quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Prettier check
+        run: npm run format:check
+
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand( { ping: 1 } )' || exit 1"
+          --health-interval 10s --health-timeout 5s --health-retries 5
+
+    env:
+      MONGO_URI: mongodb://localhost:27017/support-api-ci
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Wait for MongoDB to be ready
+        run: |
+          for i in {1..15}; do
+            mongosh --eval "db.adminCommand({ ping: 1 })" && break || sleep 2;
+          done
+
+      - name: Seed DB
+        env:
+          MONGO_URI: ${{ env.MONGO_URI }}
+        run: |
+          npm run seed
+
+      - name: Run tests (Jest)
+        env:
+          MONGO_URI: ${{ env.MONGO_URI }}
+        run: |
+          npm test
+
+      - name: Check coverage >= 70%
+        run: npm run check-coverage
+
