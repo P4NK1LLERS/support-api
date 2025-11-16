@@ -22,7 +22,7 @@ beforeEach(async () => {
     description: 'Desc',
     priority: 'low',
     category: 'test',
-    estimatedResponseTime: 1
+    estimatedResponseTime: 1,
   });
 });
 
