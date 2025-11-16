@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const app = require('../src/server');
 const RequestType = require('../src/models/RequestType');
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/support-api-test';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/support-api-test';
 
 beforeAll(async () => {
-  await mongoose.connect(MONGO_URI);
+  if (mongoose.connection.readyState === 0) {
+    await mongoose.connect(MONGO_URI);
+  }
 });
 
 afterAll(async () => {
@@ -22,7 +24,7 @@ beforeEach(async () => {
     description: 'Desc',
     priority: 'low',
     category: 'test',
-    estimatedResponseTime: 1
+    estimatedResponseTime: 1,
   });
 });
 

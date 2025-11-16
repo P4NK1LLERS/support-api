@@ -2,16 +2,16 @@ module.exports = {
   env: {
     node: true,
     jest: true,
-    es2021: true
+    es2021: true,
   },
-  extends: ['airbnb-base'],
+  extends: ['airbnb-base', 'plugin:prettier/recommended'],
   parserOptions: {
     ecmaVersion: 12,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   rules: {
     'no-console': 'off',
     'func-names': 'off',
-    'no-underscore-dangle': 'off'
-  }
+    'no-underscore-dangle': 'off',
+  },
 };
